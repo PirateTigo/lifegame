@@ -1,0 +1,10 @@
+version: 2.1
+description: Life Game Builds
+
+orbs:
+  maven: circleci/maven@3.6
+
+workflows:
+  "Tests":
+    jobs:
+      - maven/test
