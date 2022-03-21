@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.MenuItem?>
 
-<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
     <MenuBar fx:id="mainMenu" prefWidth="${root.width}" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
         <Menu text="Файл">
             <MenuItem text="Новая игра" onAction="#newGameHandler"/>

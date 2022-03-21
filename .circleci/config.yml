@@ -7,4 +7,5 @@ orbs:
 workflows:
   "Tests":
     jobs:
-      - maven/test
+      - maven/test:
+        command: '-P test-headless verify'
