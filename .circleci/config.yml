@@ -8,4 +8,4 @@ workflows:
   "Tests":
     jobs:
       - maven/test:
-        command: '-P test-headless verify'
+          command: '-P test-headless verify'
