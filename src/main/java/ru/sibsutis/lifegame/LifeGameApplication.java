@@ -1,17 +1,50 @@
 package ru.sibsutis.lifegame;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.sibsutis.lifegame.forms.MainFormController;
 
-public class LifeGameApplication {
+import java.io.IOException;
+
+import static ru.sibsutis.lifegame.window.MainWindow.MAIN_WINDOW_TITLE;
+import static ru.sibsutis.lifegame.window.MainWindow.prepareStage;
+
+/**
+ * Класс описывает JavaFX приложение Игра "Жизнь".
+ */
+public class LifeGameApplication extends Application {
+
     private static final Logger LOGGER = LogManager.getLogger(LifeGameApplication.class);
 
-    void runGame() {
-        LOGGER.info("Игра \"Жизнь\"");
+    /**
+     * Точка входа в JavaFX приложение.
+     *
+     * @param stage Контейнер компонентов.
+     */
+    @Override
+    public void start(Stage stage) {
+        try {
+            prepareStage(
+                    stage,
+                    getClass().getResource("/forms/main.fxml"),
+                    new MainFormController()
+            );
+            stage.show();
+        } catch (IOException ex) {
+            LOGGER.error("Не удалось загрузить основную форму приложения", ex);
+        }
     }
 
+    /**
+     * Точка входа в Java приложение Игра "Жизнь".
+     *
+     * @param args Параметры приложения.
+     */
     public static void main(String[] args) {
-        LifeGameApplication lifeGameApplication = new LifeGameApplication();
-        lifeGameApplication.runGame();
+        LOGGER.info(MAIN_WINDOW_TITLE);
+        launch();
     }
+
 }

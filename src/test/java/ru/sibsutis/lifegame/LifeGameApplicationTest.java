@@ -1,26 +1,25 @@
 package ru.sibsutis.lifegame;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.framework.junit5.ApplicationExtension;
 
-class LifeGameApplicationTest {
+import java.io.IOException;
 
-    @Test
-    void givenDefault_whenApplicationWasStarted_thenRunGameInvoked() {
-        try (MockedConstruction<LifeGameApplication> mocked =
-                     Mockito.mockConstruction(LifeGameApplication.class, (lifeGameApplicationMock, context) -> {
-                         // Given
-                     })
-        ) {
-            String[] args = new String[0];
+import static ru.sibsutis.lifegame.window.MainWindow.prepareStage;
 
-            // When
-            LifeGameApplication.main(args);
+@ExtendWith(ApplicationExtension.class)
+public class LifeGameApplicationTest {
 
-            // Then
-            Mockito.verify(mocked.constructed().get(0)).runGame();
-        }
+    protected Stage stage;
+    protected Scene scene;
+
+    protected void prepare(Stage stage, Object controller) throws IOException {
+        this.stage = stage;
+        prepareStage(stage, getClass().getResource("/forms/main.fxml"), controller);
+        scene = stage.getScene();
+        stage.show();
     }
 
 }

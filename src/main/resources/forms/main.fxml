@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.MenuItem?>
+
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <MenuBar fx:id="mainMenu" prefWidth="${root.width}" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
+        <Menu text="Файл">
+            <MenuItem text="Новая игра" onAction="#newGameHandler"/>
+            <MenuItem text="Открыть..." onAction="#openHandler"/>
+            <MenuItem text="Сохранить..." onAction="#saveHandler"/>
+        </Menu>
+        <Menu text="Игра">
+            <MenuItem text="Сделать снимок" onAction="#snapshotHandler"/>
+            <MenuItem text="Восстановить" onAction="#rollbackHandler"/>
+            <MenuItem text="Запустить" onAction="#startStopHandler"/>
+            <MenuItem text="Размер поля..." onAction="#setAreaSizeHandler"/>
+        </Menu>
+    </MenuBar>
+    <Label fx:id="versionsLabel" minHeight="30" minWidth="100" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
+</AnchorPane>
