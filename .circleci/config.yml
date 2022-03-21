@@ -1,6 +1,11 @@
 version: 2.1
 description: Life Game Builds
 
+executors:
+  java11Executor:
+    docker:
+      - image: 'cimg/openjdk:11.0'
+
 orbs:
   maven: circleci/maven@1.3
 
@@ -9,3 +14,4 @@ workflows:
     jobs:
       - maven/test:
           command: '-P test-headless verify'
+          executor: java11Executor

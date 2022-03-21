@@ -80,23 +80,6 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>test-headless</id>
-            <properties>
-                <openjfx.run.args>-Dglass.platform=Monocle -Dprism.order=sw -Dmonocle.platform=Headless</openjfx.run.args>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.testfx</groupId>
-                    <artifactId>openjfx-monocle</artifactId>
-                    <version>jdk-11+26</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -266,5 +249,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>test-headless</id>
+            <properties>
+                <openjfx.run.args>-Dglass.platform=Monocle -Dprism.order=sw -Dmonocle.platform=Headless</openjfx.run.args>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.testfx</groupId>
+                    <artifactId>openjfx-monocle</artifactId>
+                    <version>jdk-11+26</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>
