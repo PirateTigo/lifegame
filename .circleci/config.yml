@@ -15,7 +15,7 @@ workflows:
       build:
         executor: docker-executor
         steps:
-          - run: sudo apt-get update
-          - run: sudo apt-get install libpangoft2-1.0-0
-          - maven/test:
-              command: '-P test-headless,os-linux verify'
+            - run: sudo apt-get update
+            - run: sudo apt-get install libpangoft2-1.0-0
+            - maven/test:
+                command: '-P test-headless,os-linux verify'
