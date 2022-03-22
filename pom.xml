@@ -259,7 +259,7 @@
             <properties>
                 <openjfx.run.args>
                     -Dglass.platform=Monocle -Dprism.verbose=true -Dprism.order=sw
-                    -Djavafx.platform=monocle -Dembedded=monocle
+                    -Djavafx.platform=monocle -Dembedded=monocle -Dmonocle.screen.fb="/dev/fb4"
                 </openjfx.run.args>
             </properties>
             <dependencies>
