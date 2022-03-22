@@ -13,5 +13,5 @@ workflows:
   "Tests":
     jobs:
       - maven/test:
-          command: '-P test-headless,linux-os verify'
+          command: '-P test-headless verify'
           executor: java11-executor
