@@ -255,7 +255,7 @@
             <id>test-headless</id>
             <properties>
                 <openjfx.run.args>
-                    -Dglass.platform=Monocle -Dprism.verbose=true -Dprism.order=sw -Dmonocle.platform=Headless
+                    -Dglass.platform=Monocle -Dprism.verbose=true -Dprism.order=sw -Dmonocle.platform=Linux
                 </openjfx.run.args>
             </properties>
             <dependencies>
