@@ -112,7 +112,7 @@ jobs:
           name: update deps
           command: sudo apt-get update
       - run:
-          name: install libpangoft2-1.0-0
+          name: install libraries
           command: sudo apt-get install libpangoft2-1.0-0
       - with_cache:
           app_src_directory: << parameters.app_src_directory >>
