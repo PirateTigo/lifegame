@@ -198,7 +198,6 @@
                         --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                         ${openjfx.run.args}
                     </argLine>
-                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
 
@@ -255,7 +254,9 @@
         <profile>
             <id>test-headless</id>
             <properties>
-                <openjfx.run.args>-Dglass.platform=Monocle -Dprism.order=sw -Dmonocle.platform=Headless</openjfx.run.args>
+                <openjfx.run.args>
+                    -Dglass.platform=Monocle -Dprism.order=sw -Dmonocle.platform=Headless -Dprism.text=native
+                </openjfx.run.args>
             </properties>
             <dependencies>
                 <dependency>
