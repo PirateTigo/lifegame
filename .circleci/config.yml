@@ -10,7 +10,7 @@ orbs:
   maven: circleci/maven@1.3
 
 jobs:
-  build:
+  install-libraries:
     executor: docker-executor
     steps:
       - run:
@@ -19,10 +19,11 @@ jobs:
       - run:
           name: install libpangoft2-1.0-0
           command: sudo apt-get install libpangoft2-1.0-0
-      - maven/test:
-          command: '-P test-headless,os-linux verify'
 
 workflows:
   tests:
     jobs:
-      - build
+      - install-libraries
+      - maven/test:
+          command: '-P test-headless,os-linux verify'
+          executor: docker-executor
