@@ -12,5 +12,14 @@ orbs:
 workflows:
   tests:
     jobs:
-      - build:
-          executor: docker-executor
+      build:
+        executor: docker-executor
+      steps:
+        - run:
+            name: updating
+            command: sudo apt-get update
+        - run:
+            name: install libpangoft2-1.0-0
+            command: sudo apt-get install libpangoft2-1.0-0
+        - maven/test:
+            command: '-P test-headless,os-linux verify'
