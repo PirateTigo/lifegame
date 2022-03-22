@@ -12,5 +12,5 @@ orbs:
 workflows:
   tests:
     jobs:
-      build:
-        executor: docker-executor
+      - build:
+          executor: docker-executor
