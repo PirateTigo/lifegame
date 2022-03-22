@@ -1,17 +1,17 @@
 version: 2.1
 description: Life Game Builds
 
-executors:
-  java11-executor:
-    docker:
-      - image: 'cimg/openjdk:11.0.13'
-
 orbs:
   maven: circleci/maven@1.3
 
 workflows:
   "Tests":
     jobs:
-      - maven/test:
-          command: '-P test-headless verify'
-          executor: java11-executor
+      test:
+        docker:
+          - image: 'cimg/openjdk:11.0.13'
+        steps:
+          - run: sudo apt-get update
+          - run: sudo apt-get install libpangoft2-1.0-0
+          - maven/test:
+              command: '-P test-headless,os-linux verify'
