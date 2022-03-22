@@ -259,7 +259,7 @@
             <properties>
                 <openjfx.run.args>
                     -Dprism.verbose=true -Dprism.order=sw
-                    -Dglass.platform=Monocle -Dembedded=monocle
+                    -Dglass.platform=Monocle -Dprism.text=t2k
                 </openjfx.run.args>
             </properties>
             <dependencies>
