@@ -9,7 +9,7 @@ workflows:
     jobs:
       build:
         docker:
-          - image: cimg/openjdk:11.0.13
+            - image: cimg/openjdk:11.0.13
         steps:
  #         - run: sudo apt-get update
  #         - run: sudo apt-get install libpangoft2-1.0-0
