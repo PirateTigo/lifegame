@@ -259,8 +259,7 @@
             <id>test-headless</id>
             <properties>
                 <openjfx.run.args>
-                    -Dprism.verbose=true -Dprism.order=sw
-                    -Dglass.platform=Monocle -Dprism.fontdir=${JAVA_HOME}/jre/lib/fonts
+                    -Dprism.verbose=true -Dprism.order=sw -Dglass.platform=Monocle
                 </openjfx.run.args>
             </properties>
             <dependencies>
