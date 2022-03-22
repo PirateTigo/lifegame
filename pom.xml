@@ -260,6 +260,7 @@
                 <openjfx.run.args>
                     -Dprism.verbose=true -Dprism.order=sw
                     -Dglass.platform=Monocle -Dembedded=monocle
+                    -Djavafx.version=11-ea
                 </openjfx.run.args>
             </properties>
             <dependencies>
