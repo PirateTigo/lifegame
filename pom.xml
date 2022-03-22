@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j.version>2.17.2</log4j.version>
         <testfx.version>4.0.16-alpha</testfx.version>
-        <javafx.version>11-ea+25</javafx.version>
+        <javafx.version>11.0.2</javafx.version>
         <maven.compiler.release>11</maven.compiler.release>
         <openjfx.run.args/>
     </properties>
@@ -196,7 +196,7 @@
                     <argLine>
                         --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
                         --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                        ${openjfx.run.args} -Djavafx.cachedir=~/openjfx/cache
+                        ${openjfx.run.args}
                     </argLine>
                 </configuration>
             </plugin>
