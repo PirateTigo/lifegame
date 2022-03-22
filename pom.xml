@@ -200,7 +200,6 @@
                         --add-exports javafx.graphics/com.sun.glass.utils=ALL-UNNAMED
                         --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
                         ${openjfx.run.args}
-                        -Dmonocle.platform=${monocle.platform}
                     </argLine>
                 </configuration>
             </plugin>
@@ -259,7 +258,7 @@
             <id>test-headless</id>
             <properties>
                 <openjfx.run.args>
-                    -Dprism.verbose=true -Dprism.order=sw -Dglass.platform=Monocle
+                    -Dprism.verbose=true -Dglass.platform=Monocle -Dmonocle.platform=Headless
                 </openjfx.run.args>
             </properties>
             <dependencies>
@@ -270,13 +269,6 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
-        </profile>
-
-        <profile>
-            <id>linux-os</id>
-            <properties>
-                <monocle.platform>Linux</monocle.platform>
-            </properties>
         </profile>
     </profiles>
 

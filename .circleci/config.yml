@@ -134,4 +134,4 @@ workflows:
   tests:
     jobs:
       - test:
-          command: '-P test-headless,os-linux verify'
+          command: '-P test-headless verify'
