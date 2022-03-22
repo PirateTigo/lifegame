@@ -13,5 +13,5 @@ workflows:
   "Tests":
     jobs:
       - maven/test:
-          command: '-P test-headless,COMPILE_PANGO verify'
+          command: '-P test-headless verify'
           executor: java11-executor
