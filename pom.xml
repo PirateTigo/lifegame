@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j.version>2.17.2</log4j.version>
         <testfx.version>4.0.16-alpha</testfx.version>
-        <javafx.version>11.0.2</javafx.version>
+        <javafx.version>18</javafx.version>
         <maven.compiler.release>11</maven.compiler.release>
         <openjfx.run.args/>
         <monocle.platform>Headless</monocle.platform>
@@ -260,14 +260,13 @@
                 <openjfx.run.args>
                     -Dprism.verbose=true -Dprism.order=sw
                     -Dglass.platform=Monocle -Dembedded=monocle
-                    -Djavafx.version=11-ea
                 </openjfx.run.args>
             </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.testfx</groupId>
                     <artifactId>openjfx-monocle</artifactId>
-                    <version>jdk-11+26</version>
+                    <version>jdk-12.0.1+2</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
