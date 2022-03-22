@@ -260,7 +260,7 @@
             <properties>
                 <openjfx.run.args>
                     -Dprism.verbose=true -Dprism.order=sw
-                    -Dglass.platform=Monocle -Dprism.fontdir=" + ${JAVA_HOME} + "/jre/lib/fonts"
+                    -Dglass.platform=Monocle -Dprism.fontdir=${JAVA_HOME}/jre/lib/fonts
                 </openjfx.run.args>
             </properties>
             <dependencies>
