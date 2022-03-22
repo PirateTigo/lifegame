@@ -198,6 +198,7 @@
                         --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                         ${openjfx.run.args}
                     </argLine>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
 
