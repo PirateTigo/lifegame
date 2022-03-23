@@ -1,4 +1,4 @@
-package ru.sibsutis.lifegame.window;
+package ru.sibsutis.lifegame.windows;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,23 +18,24 @@ public final class MainWindow {
     private static final double MAIN_WINDOW_WIDTH = 1200;
     private static final double MAIN_WINDOW_HEIGHT = 800;
 
-    private MainWindow() {}
+    private MainWindow() {
+    }
 
     /**
-     * Наполняет контейнер компонентов основного окна приложения.
+     * Наполняет контейнер компонентов окна.
      *
-     * @param stage Контейнер компонентов окна.
+     * @param stage            Контейнер компонентов окна.
      * @param mainFormLocation URL размещения fxml-файла описания основной формы.
-     * @param controller Контроллер для формы.
+     * @param controller       Контроллер для формы.
      * @throws IOException Если fxml-файл описания формы недоступен.
      */
     public static void prepareStage(
             Stage stage,
             URL mainFormLocation,
             Object controller) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(mainFormLocation);
-        fxmlLoader.setController(controller);
-        stage.setScene(new Scene(fxmlLoader.load(), MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
+        FXMLLoader mainFormLoader = new FXMLLoader(mainFormLocation);
+        mainFormLoader.setController(controller);
+        stage.setScene(new Scene(mainFormLoader.load(), MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
         stage.setTitle(MAIN_WINDOW_TITLE);
         stage.getIcons().add(new Image("icon.png"));
     }

@@ -5,20 +5,64 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import java.lang.String?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
 
-<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
-    <MenuBar fx:id="mainMenu" prefWidth="${root.width}" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
-        <Menu text="Файл">
-            <MenuItem text="Новая игра" onAction="#newGameHandler"/>
-            <MenuItem text="Открыть..." onAction="#openHandler"/>
-            <MenuItem text="Сохранить..." onAction="#saveHandler"/>
-        </Menu>
-        <Menu text="Игра">
-            <MenuItem text="Сделать снимок" onAction="#snapshotHandler"/>
-            <MenuItem text="Восстановить" onAction="#rollbackHandler"/>
-            <MenuItem text="Запустить" onAction="#startStopHandler"/>
-            <MenuItem text="Размер поля..." onAction="#setAreaSizeHandler"/>
-        </Menu>
-    </MenuBar>
-    <Label fx:id="versionsLabel" minHeight="30" minWidth="100" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+    <fx:define>
+        <String fx:id="sizesLabelStyle"
+                fx:value="-fx-font-family: 'Comic Sans MS', serif;
+                          -fx-font-size: 2em;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: DarkOliveGreen;"
+        />
+    </fx:define>
+    <VBox fx:id="rootVBox" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="20.0">
+        <MenuBar fx:id="mainMenu" prefWidth="${root.width}"
+                 AnchorPane.leftAnchor="0" AnchorPane.topAnchor="0">
+            <Menu text="Файл">
+                <MenuItem text="Новая игра" onAction="#newGameHandler"/>
+                <MenuItem text="Открыть..." onAction="#openHandler"/>
+                <MenuItem text="Сохранить..." onAction="#saveHandler"/>
+            </Menu>
+            <Menu text="Игра">
+                <MenuItem text="Сделать снимок" onAction="#snapshotHandler"/>
+                <MenuItem text="Восстановить" onAction="#rollbackHandler"/>
+                <MenuItem text="Запустить" onAction="#startStopHandler"/>
+                <MenuItem text="Размер поля..." onAction="#setAreaSizeHandler"/>
+            </Menu>
+        </MenuBar>
+        <Label fx:id="mainWidthLabel" prefWidth="${root.width}"
+               alignment="CENTER" minHeight="100">
+            <style>
+                <fx:reference source="sizesLabelStyle"/>
+            </style>
+        </Label>
+        <HBox AnchorPane.rightAnchor="100">
+            <Label fx:id="mainHeightLabel" prefHeight="${root.height}"
+                   alignment="CENTER" minWidth="100.0">
+                <style>
+                    <fx:reference source="sizesLabelStyle"/>
+                </style>
+            </Label>
+            <GridPane alignment="CENTER" prefWidth="${root.width}">
+                <HBox>
+                    <ScrollPane style="-fx-background-color: DarkOliveGreen">
+                        <HBox.margin>
+                            <Insets right="100" bottom="100"/>
+                        </HBox.margin>
+                        <Canvas fx:id="gameField"/>
+                    </ScrollPane>
+                </HBox>
+            </GridPane>
+        </HBox>
+    </VBox>
+    <Label fx:id="versionsLabel" minHeight="30" minWidth="100"
+           AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"/>
 </AnchorPane>

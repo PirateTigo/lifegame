@@ -8,8 +8,8 @@ import ru.sibsutis.lifegame.forms.MainFormController;
 
 import java.io.IOException;
 
-import static ru.sibsutis.lifegame.window.MainWindow.MAIN_WINDOW_TITLE;
-import static ru.sibsutis.lifegame.window.MainWindow.prepareStage;
+import static ru.sibsutis.lifegame.windows.MainWindow.MAIN_WINDOW_TITLE;
+import static ru.sibsutis.lifegame.windows.MainWindow.prepareStage;
 
 /**
  * Класс описывает JavaFX приложение Игра "Жизнь".

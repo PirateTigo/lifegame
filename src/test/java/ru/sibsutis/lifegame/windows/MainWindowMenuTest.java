@@ -1,4 +1,4 @@
-package ru.sibsutis.lifegame.window;
+package ru.sibsutis.lifegame.windows;
 
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -20,7 +20,7 @@ public class MainWindowMenuTest extends LifeGameApplicationTest {
     @Start
     private void start(Stage stage) throws IOException {
         mainFormControllerMock = mock(MainFormController.class);
-        prepare(stage, mainFormControllerMock);
+        prepareMainWindow(stage, mainFormControllerMock);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class MainWindowMenuTest extends LifeGameApplicationTest {
     }
 
     private MenuItem getFileMenuItem(String name) {
-        return ((MenuBar)scene.lookup("#mainMenu"))
+        return ((MenuBar) mainWindowScene.lookup("#mainMenu"))
                 .getMenus()
                 .get(0)
                 .getItems()
@@ -98,7 +98,7 @@ public class MainWindowMenuTest extends LifeGameApplicationTest {
     }
 
     private MenuItem getGameMenuItems(String name) {
-        return ((MenuBar)scene.lookup("#mainMenu"))
+        return ((MenuBar) mainWindowScene.lookup("#mainMenu"))
                 .getMenus()
                 .get(1)
                 .getItems()
