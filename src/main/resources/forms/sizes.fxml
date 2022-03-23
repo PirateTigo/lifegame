@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="sizesGrid" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1"
+          prefHeight="200.0" prefWidth="350.0" alignment="CENTER"
+          hgap="10" vgap="10" stylesheets="/forms/styles.css">
+
+    <Label fx:id="width" text="Ширина" maxWidth="100" minWidth="50">
+        <GridPane.rowIndex>0</GridPane.rowIndex>
+        <GridPane.columnIndex>0</GridPane.columnIndex>
+    </Label>
+
+    <Label fx:id="height" text="Высота" maxWidth="100" minWidth="50">
+        <GridPane.rowIndex>0</GridPane.rowIndex>
+        <GridPane.columnIndex>3</GridPane.columnIndex>
+    </Label>
+
+    <Spinner fx:id="widthValue" maxWidth="100" minWidth="50">
+        <GridPane.rowIndex>1</GridPane.rowIndex>
+        <GridPane.columnIndex>0</GridPane.columnIndex>
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="10" max="300"/>
+        </valueFactory>
+    </Spinner>
+
+    <Spinner fx:id="heightValue" maxWidth="100" minWidth="50">
+        <GridPane.rowIndex>1</GridPane.rowIndex>
+        <GridPane.columnIndex>3</GridPane.columnIndex>
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="10" max="300"/>
+        </valueFactory>
+    </Spinner>
+
+    <Button fx:id="buttonSave" text="Сохранить" minWidth="100" onAction="#saveButtonHandler">
+        <GridPane.rowIndex>4</GridPane.rowIndex>
+        <GridPane.columnIndex>0</GridPane.columnIndex>
+    </Button>
+
+    <Button fx:id="buttonCancel" text="Отмена" minWidth="100" onAction="#cancelButtonHandler">
+        <GridPane.rowIndex>4</GridPane.rowIndex>
+        <GridPane.columnIndex>3</GridPane.columnIndex>
+    </Button>
+
+</GridPane>

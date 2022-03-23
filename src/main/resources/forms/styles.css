@@ -1,0 +1,16 @@
+.root {
+    -fx-font-family: "Comic Sans MS", serif;
+}
+
+#sizesGrid {
+    -fx-padding: 20px;
+}
+
+.label {
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-font-size: 1em;
+}
