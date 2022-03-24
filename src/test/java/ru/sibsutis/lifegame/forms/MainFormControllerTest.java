@@ -11,6 +11,7 @@ import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.testfx.framework.junit5.ApplicationExtension;
 import ru.sibsutis.lifegame.gameplay.Renderer;
 import ru.sibsutis.lifegame.windows.SizesWindow;
 
@@ -18,9 +19,10 @@ import java.io.IOException;
 import java.net.URL;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(ApplicationExtension.class)
 public class MainFormControllerTest {
 
     private static final int WIDTH = 42;
@@ -29,16 +31,12 @@ public class MainFormControllerTest {
     private static final String HEIGHT_STRING = "21";
     private static final Integer CELL_SIZE = 20;
 
-    @Mock
     private Label mainWidthLabelMock;
 
-    @Mock
     private Label mainHeightLabelMock;
 
-    @Mock
     private Canvas gameFieldMock;
 
-    @Mock
     private Renderer rendererMock;
 
     private MainFormController mainFormController;
@@ -46,10 +44,10 @@ public class MainFormControllerTest {
     @BeforeEach
     public void setUp() {
         mainFormController = new MainFormController();
-        mainFormController.mainWidthLabel = mainWidthLabelMock;
-        mainFormController.mainHeightLabel = mainHeightLabelMock;
-        mainFormController.gameField = gameFieldMock;
-        mainFormController.renderer = rendererMock;
+        mainFormController.mainWidthLabel = mainWidthLabelMock = mock(Label.class);
+        mainFormController.mainHeightLabel = mainHeightLabelMock = mock(Label.class);
+        mainFormController.gameField = gameFieldMock = mock(Canvas.class);
+        mainFormController.renderer = rendererMock = mock(Renderer.class);
     }
 
     @Test
