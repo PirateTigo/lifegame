@@ -12,7 +12,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+import ru.sibsutis.lifegame.gameplay.Renderer;
 import ru.sibsutis.lifegame.windows.SizesWindow;
+
+import static ru.sibsutis.lifegame.gameplay.Cell.CELL_SIZE;
 
 /**
  * Контроллер формы основного окна приложения.
@@ -32,9 +35,9 @@ public class MainFormController {
     private static final Integer DEFAULT_GAME_HEIGHT_SIZE = 20;
 
     /**
-     * Длина стороны клетки игрового поля в пикселях.
+     * "Отрисовщик" игрового поля.
      */
-    private static final Integer CELL_SIZE = 20;
+    Renderer renderer;
 
     /**
      * Якорная панель, на которой располагаются все элементы интерфейса.
@@ -82,7 +85,8 @@ public class MainFormController {
      */
     public void newGameHandler() {
         LOGGER.info("Нажата кнопка \"Новая игра\"");
-        // TODO: Необходимо реализовать обработчик кнопки меню "Новая игра"
+        renderer.clear();
+        // TODO: Необходимо добавить обработку остановки игры.
     }
 
     /**
@@ -157,6 +161,7 @@ public class MainFormController {
         mainHeightLabel.setText(String.valueOf(height));
         gameField.setWidth(width * CELL_SIZE);
         gameField.setHeight(height * CELL_SIZE);
+        renderer.setSizes(width, height);
     }
 
     /**
@@ -191,6 +196,8 @@ public class MainFormController {
         mainHeightLabel.setText(DEFAULT_GAME_HEIGHT_SIZE.toString());
         gameField.setWidth(DEFAULT_GAME_WIDTH_SIZE * CELL_SIZE);
         gameField.setHeight(DEFAULT_GAME_HEIGHT_SIZE * CELL_SIZE);
+        renderer = new Renderer(gameField);
+        renderer.setSizes(DEFAULT_GAME_WIDTH_SIZE, DEFAULT_GAME_HEIGHT_SIZE);
     }
 
 }
