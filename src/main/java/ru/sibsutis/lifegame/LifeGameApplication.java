@@ -12,7 +12,7 @@ import static ru.sibsutis.lifegame.windows.MainWindow.MAIN_WINDOW_TITLE;
 import static ru.sibsutis.lifegame.windows.MainWindow.prepareStage;
 
 /**
- * Класс описывает JavaFX приложение Игра "Жизнь".
+ * JavaFX приложение Игра "Жизнь".
  */
 public class LifeGameApplication extends Application {
 

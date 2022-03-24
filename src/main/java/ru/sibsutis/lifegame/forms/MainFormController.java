@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+import ru.sibsutis.lifegame.gameplay.Game;
 import ru.sibsutis.lifegame.gameplay.Renderer;
 import ru.sibsutis.lifegame.windows.SizesWindow;
 
@@ -23,6 +25,9 @@ import static ru.sibsutis.lifegame.gameplay.Cell.CELL_SIZE;
 public class MainFormController {
 
     private static final Logger LOGGER = LogManager.getLogger(MainFormController.class);
+
+    private static final String START = "Запустить";
+    private static final String STOP = "Остановить";
 
     /**
      * Ширина игрового поля в клетках по умолчанию.
@@ -50,6 +55,12 @@ public class MainFormController {
      */
     @FXML
     MenuBar mainMenu;
+
+    /**
+     * Кнопка запуска / остановки игры.
+     */
+    @FXML
+    MenuItem startStopMenuItem;
 
     /**
      * Метка отображения ширины текущего игрового поля.
@@ -81,12 +92,19 @@ public class MainFormController {
     SizesFormController sizesFormController;
 
     /**
+     * Контроллер игрового процесса.
+     */
+    Game game;
+
+    /**
      * Обработчик нажатия на кнопку основного меню "Новая игра".
      */
     public void newGameHandler() {
         LOGGER.info("Нажата кнопка \"Новая игра\"");
         renderer.clear();
-        // TODO: Необходимо добавить обработку остановки игры.
+        if (game.isRunning()) {
+            startStopHandler();
+        }
     }
 
     /**
@@ -126,7 +144,14 @@ public class MainFormController {
      */
     public void startStopHandler() {
         LOGGER.info("Нажата кнопка \"Запустить / Остановить\"");
-        // TODO: Необходимо реализовать обработчик кнопки меню "Запустить / Остановить"
+        if (startStopMenuItem.getText().equals(START)) {
+            startStopMenuItem.setText(STOP);
+            game = new Game(renderer);
+            game.start();
+        } else {
+            startStopMenuItem.setText(START);
+            game.interrupt();
+        }
     }
 
     /**
@@ -157,6 +182,9 @@ public class MainFormController {
      */
     public void setGameFieldSizes(int width, int height) {
         LOGGER.info("Заданы размеры игрового поля (ширина = {}, высота = {}}", width, height);
+        if (game.isRunning()) {
+            startStopHandler();
+        }
         mainWidthLabel.setText(String.valueOf(width));
         mainHeightLabel.setText(String.valueOf(height));
         gameField.setWidth(width * CELL_SIZE);
@@ -198,6 +226,7 @@ public class MainFormController {
         gameField.setHeight(DEFAULT_GAME_HEIGHT_SIZE * CELL_SIZE);
         renderer = new Renderer(gameField);
         renderer.setSizes(DEFAULT_GAME_WIDTH_SIZE, DEFAULT_GAME_HEIGHT_SIZE);
+        game = new Game(renderer);
     }
 
 }

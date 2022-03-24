@@ -34,7 +34,7 @@
             <Menu text="Игра">
                 <MenuItem text="Сделать снимок" onAction="#snapshotHandler"/>
                 <MenuItem text="Восстановить" onAction="#rollbackHandler"/>
-                <MenuItem text="Запустить" onAction="#startStopHandler"/>
+                <MenuItem fx:id="startStopMenuItem" text="Запустить" onAction="#startStopHandler"/>
                 <MenuItem text="Размер поля..." onAction="#setAreaSizeHandler"/>
             </Menu>
         </MenuBar>
