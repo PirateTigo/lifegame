@@ -3,15 +3,14 @@ package ru.sibsutis.lifegame.forms;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
+import ru.sibsutis.lifegame.gameplay.Game;
 import ru.sibsutis.lifegame.gameplay.Renderer;
 import ru.sibsutis.lifegame.windows.SizesWindow;
 
@@ -41,13 +40,16 @@ public class MainFormControllerTest {
 
     private MainFormController mainFormController;
 
-    @BeforeEach
-    public void setUp() {
+    private Game gameMock;
+
+    @Start
+    public void start(Stage stage) {
         mainFormController = new MainFormController();
         mainFormController.mainWidthLabel = mainWidthLabelMock = mock(Label.class);
         mainFormController.mainHeightLabel = mainHeightLabelMock = mock(Label.class);
         mainFormController.gameField = gameFieldMock = mock(Canvas.class);
         mainFormController.renderer = rendererMock = mock(Renderer.class);
+        mainFormController.game = gameMock = mock(Game.class);
     }
 
     @Test
@@ -70,16 +72,20 @@ public class MainFormControllerTest {
     }
 
     @Test
+    @SuppressWarnings("all")
     public void givenNewGameHandler_whenCalled_thenCanvasIsCleared() {
         mainFormController.newGameHandler();
 
         verify(rendererMock).clear();
+        verify(gameMock).isRunning();
     }
 
     @Test
+    @SuppressWarnings("all")
     public void givenSetGameFieldSizes_whenCalled_thenSizesAreSet() {
         mainFormController.setGameFieldSizes(WIDTH, HEIGHT);
 
+        verify(gameMock).isRunning();
         verify(mainWidthLabelMock).setText(WIDTH_STRING);
         verify(mainHeightLabelMock).setText(HEIGHT_STRING);
         verify(gameFieldMock).setWidth(WIDTH * CELL_SIZE);
