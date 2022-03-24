@@ -21,7 +21,7 @@
         <GridPane.rowIndex>1</GridPane.rowIndex>
         <GridPane.columnIndex>0</GridPane.columnIndex>
         <valueFactory>
-            <SpinnerValueFactory.IntegerSpinnerValueFactory min="10" max="300"/>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="10" max="100"/>
         </valueFactory>
     </Spinner>
 
@@ -29,7 +29,7 @@
         <GridPane.rowIndex>1</GridPane.rowIndex>
         <GridPane.columnIndex>3</GridPane.columnIndex>
         <valueFactory>
-            <SpinnerValueFactory.IntegerSpinnerValueFactory min="10" max="300"/>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="10" max="100"/>
         </valueFactory>
     </Spinner>
 
