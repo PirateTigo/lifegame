@@ -57,7 +57,7 @@ public class SizesFormControllerTest extends LifeGameApplicationTest {
         sizesFormController.saveButtonHandler();
 
         verify(stageMock).close();
-        verify(mainFormControllerMock).setGameFieldSizes(eq(FIELD_VALUE), eq(FIELD_VALUE));
+        verify(mainFormControllerMock).setGameFieldSizes(eq(FIELD_VALUE), eq(FIELD_VALUE), eq(true));
     }
 
 }

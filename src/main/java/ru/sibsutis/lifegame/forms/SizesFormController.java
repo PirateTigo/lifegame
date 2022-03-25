@@ -67,7 +67,7 @@ public class SizesFormController {
     public void saveButtonHandler() {
         LOGGER.info("Нажата кнопка \"Сохранить\"");
         stage.close();
-        mainFormController.setGameFieldSizes(widthValue.getValue(), heightValue.getValue());
+        mainFormController.setGameFieldSizes(widthValue.getValue(), heightValue.getValue(), true);
     }
 
     /**

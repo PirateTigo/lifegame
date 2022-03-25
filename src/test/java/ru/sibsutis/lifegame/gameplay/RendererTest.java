@@ -9,11 +9,12 @@ import org.mockito.Mock;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.sibsutis.lifegame.io.GameLoader;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,15 +68,26 @@ public class RendererTest {
     }
 
     @Test
-    public void givenGetGridCopy_whenCalled_thenCopyIsCreated() {
-        renderer.setSizes(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
-        renderer.grid[1][2].setStatus(true);
-        renderer.grid[2][1].setStatus(true);
+    public void givenRenderer_whenWorkWithGrid_thenAllIsCorrect() {
+        GameLoader gameLoader = new GameLoader(
+                new File(getClass().getResource("/files/loaderTest.lgf").getFile())
+        );
+        int width = gameLoader.getWidth();
+        int height = gameLoader.getHeight();
+        Cell[][] data = gameLoader.getData();
+        renderer.loadGridCopy(width, height, data);
 
         Cell[][] gridCopy = renderer.getGridCopy();
 
-        assertTrue(gridCopy[1][2].getStatus());
-        assertTrue(gridCopy[2][1].getStatus());
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                assertEquals(data[i][j].getHNum(), gridCopy[i][j].getHNum());
+                assertEquals(data[i][j].getVNum(), gridCopy[i][j].getVNum());
+                assertEquals(data[i][j].getY(), gridCopy[i][j].getY());
+                assertEquals(data[i][j].getX(), gridCopy[i][j].getX());
+                assertEquals(data[i][j].getStatus(), gridCopy[i][j].getStatus());
+            }
+        }
     }
 
 }

@@ -10,10 +10,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.internal.verification.Times;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import ru.sibsutis.lifegame.gameplay.Game;
 import ru.sibsutis.lifegame.gameplay.Renderer;
+import ru.sibsutis.lifegame.io.GameLoader;
 import ru.sibsutis.lifegame.io.GameSaver;
 import ru.sibsutis.lifegame.windows.SizesWindow;
 
@@ -91,7 +93,7 @@ public class MainFormControllerTest {
     @Test
     @SuppressWarnings("all")
     public void givenSetGameFieldSizes_whenCalled_thenSizesAreSet() {
-        mainFormController.setGameFieldSizes(WIDTH, HEIGHT);
+        mainFormController.setGameFieldSizes(WIDTH, HEIGHT, true);
 
         verify(gameMock).isRunning();
         verify(mainWidthLabelMock).setText(WIDTH_STRING);
@@ -136,8 +138,36 @@ public class MainFormControllerTest {
             verify(rendererMock).getGridCopy();
             verify(mainWidthLabelMock).getText();
             verify(mainHeightLabelMock).getText();
-            GameSaver gameSaverMock = mockedGameSaver.constructed().stream().findFirst().orElseThrow();
+            GameSaver gameSaverMock =
+                    mockedGameSaver.constructed().stream().findFirst().orElseThrow();
             verify(gameSaverMock).save();
+        }
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    public void givenOpenHandler_whenCalled_thenLoaded() {
+        Object someData = mock(Object.class);
+        try (MockedConstruction<GameLoader> mockedGameLoader =
+                     mockConstruction(GameLoader.class, (gameLoaderMock, context) -> {
+                         when(gameLoaderMock.getWidth()).thenReturn(WIDTH);
+                         when(gameLoaderMock.getHeight()).thenReturn(HEIGHT);
+                         when(gameLoaderMock.load()).thenReturn(true);
+                     })) {
+
+            mainFormController.openHandler();
+
+            verify(gameMock, new Times(2)).isRunning();
+            verify(fileChooserMock).showOpenDialog(any());
+            GameLoader gameLoaderMock =
+                    mockedGameLoader.constructed().stream().findFirst().orElseThrow();
+            verify(gameLoaderMock).load();
+            verify(gameLoaderMock).getWidth();
+            verify(gameLoaderMock).getHeight();
+            verify(mainWidthLabelMock).setText(anyString());
+            verify(mainHeightLabelMock).setText(anyString());
+            verify(gameLoaderMock).getData();
+            verify(rendererMock).loadGridCopy(eq(WIDTH), eq(HEIGHT), any());
         }
     }
 

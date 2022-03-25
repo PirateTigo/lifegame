@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import ru.sibsutis.lifegame.gameplay.Game;
 import ru.sibsutis.lifegame.gameplay.Renderer;
+import ru.sibsutis.lifegame.io.GameLoader;
 import ru.sibsutis.lifegame.io.GameSaver;
 import ru.sibsutis.lifegame.windows.SizesWindow;
 
@@ -124,7 +125,18 @@ public class MainFormController {
      */
     public void openHandler() {
         LOGGER.info("Нажата кнопка \"Открыть...\"");
-        // TODO: Необходимо реализовать обработчик кнопки меню "Открыть..."
+        if (game.isRunning()) {
+            startStopHandler();
+        }
+        File file = fileChooser.showOpenDialog(mainStage);
+        LOGGER.info("Указан файл {} для загрузки игрового поля", file);
+        GameLoader gameLoader = new GameLoader(file);
+        if (gameLoader.load()) {
+            int width = gameLoader.getWidth();
+            int height = gameLoader.getHeight();
+            setGameFieldSizes(width, height, false);
+            renderer.loadGridCopy(width, height, gameLoader.getData());
+        }
     }
 
     /**
@@ -204,10 +216,11 @@ public class MainFormController {
     /**
      * Устанавливает размер игрового поля.
      *
-     * @param width  Ширина.
-     * @param height Высота.
+     * @param width    Ширина.
+     * @param height   Высота.
+     * @param rerender Признак необходимости перерисовки игрового поля.
      */
-    public void setGameFieldSizes(int width, int height) {
+    public void setGameFieldSizes(int width, int height, boolean rerender) {
         LOGGER.info("Заданы размеры игрового поля (ширина = {}, высота = {}}", width, height);
         if (game.isRunning()) {
             startStopHandler();
@@ -216,7 +229,9 @@ public class MainFormController {
         mainHeightLabel.setText(String.valueOf(height));
         gameField.setWidth(width * CELL_SIZE);
         gameField.setHeight(height * CELL_SIZE);
-        renderer.setSizes(width, height);
+        if (rerender) {
+            renderer.setSizes(width, height);
+        }
         reestablishMenuItem.setDisable(true);
     }
 
