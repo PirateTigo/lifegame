@@ -2,6 +2,7 @@ package ru.sibsutis.lifegame.forms;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,8 @@ public class MainFormControllerTest {
 
     private Game gameMock;
 
+    private MenuItem reestablishMenuItemMock;
+
     @Start
     public void start(Stage stage) {
         mainFormController = new MainFormController();
@@ -50,6 +53,7 @@ public class MainFormControllerTest {
         mainFormController.gameField = gameFieldMock = mock(Canvas.class);
         mainFormController.renderer = rendererMock = mock(Renderer.class);
         mainFormController.game = gameMock = mock(Game.class);
+        mainFormController.reestablishMenuItem = reestablishMenuItemMock = mock(MenuItem.class);
     }
 
     @Test
@@ -91,6 +95,24 @@ public class MainFormControllerTest {
         verify(gameFieldMock).setWidth(WIDTH * CELL_SIZE);
         verify(gameFieldMock).setHeight(HEIGHT * CELL_SIZE);
         verify(rendererMock).setSizes(WIDTH, HEIGHT);
+        verify(reestablishMenuItemMock).setDisable(true);
+    }
+
+    @Test
+    public void givenSnapshotHandler_whenCalled_thenSnapshotIsMade() {
+        mainFormController.snapshotHandler();
+
+        verify(rendererMock).makeSnapshot();
+        verify(reestablishMenuItemMock).setDisable(false);
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    public void givenRollbackHandler_whenCalled_thenSnapshotIsReestablished() {
+        mainFormController.rollbackHandler();
+
+        verify(gameMock).isRunning();
+        verify(rendererMock).reestablishSnapshot();
     }
 
 }

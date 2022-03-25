@@ -35,6 +35,25 @@ public class Renderer {
      */
     private int height;
 
+    /**
+     * Снимок игрового поля.
+     */
+    private Cell[][] gridSnapshot;
+
+    /**
+     * Позволяет избежать наложения вызовов {@link #makeSnapshot()} и {@link #gameStep(int)}.
+     *
+     * @see #isGameStepping
+     */
+    private boolean isWorkingWithSnapshot = false;
+
+    /**
+     * Позволяет избежать наложения вызовов {@link #makeSnapshot()} и {@link #gameStep(int)}.
+     *
+     * @see #isWorkingWithSnapshot
+     */
+    private boolean isGameStepping = false;
+
     public Renderer(Canvas canvas) {
         this.canvas = canvas;
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -95,7 +114,10 @@ public class Renderer {
     /**
      * Вычисляет один шаг игры и обновляет игровое поле.
      */
+    @SuppressWarnings("all")
     public void gameStep(int generation) {
+        while (isWorkingWithSnapshot) ;
+        isGameStepping = true;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 calculateCellStatus(j, i);
@@ -103,6 +125,46 @@ public class Renderer {
         }
         render();
         LOGGER.info("Рисуем поколение {}", generation);
+        isGameStepping = false;
+    }
+
+    /**
+     * Выполняет сохранение снимка игрового поля.
+     */
+    public void makeSnapshot() {
+        Cell[][] newGrid = new Cell[height][width];
+        copyGrid(grid, newGrid);
+        gridSnapshot = newGrid;
+        isWorkingWithSnapshot = false;
+    }
+
+    /**
+     * Выполняет восстановление снимка игрового поля.
+     */
+    public void reestablishSnapshot() {
+        Cell[][] newGrid = new Cell[height][width];
+        copyGrid(gridSnapshot, newGrid);
+        grid = newGrid;
+        render();
+        isWorkingWithSnapshot = false;
+    }
+
+    @SuppressWarnings("all")
+    private void copyGrid(Cell[][] from, Cell[][] to) {
+        while (isGameStepping) ;
+        isWorkingWithSnapshot = true;
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                to[i][j] = Cell.builder()
+                        .setHNum(j)
+                        .setVNum(i)
+                        .setX(j * CELL_SIZE)
+                        .setY(i * CELL_SIZE)
+                        .setStatus(from[i][j].getStatus())
+                        .build();
+            }
+        }
     }
 
     private void render() {
