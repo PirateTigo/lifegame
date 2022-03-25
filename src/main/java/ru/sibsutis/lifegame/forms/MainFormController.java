@@ -45,16 +45,10 @@ public class MainFormController {
     Renderer renderer;
 
     /**
-     * Якорная панель, на которой располагаются все элементы интерфейса.
+     * Кнопка восстановления игрового поля из снимка.
      */
     @FXML
-    AnchorPane root;
-
-    /**
-     * Основное меню.
-     */
-    @FXML
-    MenuBar mainMenu;
+    MenuItem reestablishMenuItem;
 
     /**
      * Кнопка запуска / остановки игры.
@@ -128,7 +122,8 @@ public class MainFormController {
      */
     public void snapshotHandler() {
         LOGGER.info("Нажата кнопка \"Сделать снимок\"");
-        // TODO: Необходимо реализовать обработчик кнопки меню "Сделать снимок"
+        renderer.makeSnapshot();
+        reestablishMenuItem.setDisable(false);
     }
 
     /**
@@ -136,7 +131,10 @@ public class MainFormController {
      */
     public void rollbackHandler() {
         LOGGER.info("Нажата кнопка \"Восстановить\"");
-        // TODO: Необходимо реализовать обработчик кнопки меню "Восстановить"
+        if (game.isRunning()) {
+            startStopHandler();
+        }
+        renderer.reestablishSnapshot();
     }
 
     /**
@@ -190,6 +188,7 @@ public class MainFormController {
         gameField.setWidth(width * CELL_SIZE);
         gameField.setHeight(height * CELL_SIZE);
         renderer.setSizes(width, height);
+        reestablishMenuItem.setDisable(true);
     }
 
     /**

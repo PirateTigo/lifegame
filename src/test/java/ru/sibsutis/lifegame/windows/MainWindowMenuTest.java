@@ -10,6 +10,7 @@ import ru.sibsutis.lifegame.forms.MainFormController;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -84,6 +85,13 @@ public class MainWindowMenuTest extends LifeGameApplicationTest {
         setAreaSizeItem.fire();
 
         verify(mainFormControllerMock).setAreaSizeHandler();
+    }
+
+    @Test
+    public void givenMainWindowMenu_whenWindowShowed_thenItemIsDisabled() {
+        MenuItem rollbackItem = getGameMenuItems("Восстановить");
+
+        assertTrue(rollbackItem.isDisable());
     }
 
     private MenuItem getFileMenuItem(String name) {
