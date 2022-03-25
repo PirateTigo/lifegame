@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ru.sibsutis.lifegame.forms.MainFormController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +39,7 @@ public final class MainWindow {
         stage.setScene(new Scene(mainFormLoader.load(), MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
         stage.setTitle(MAIN_WINDOW_TITLE);
         stage.getIcons().add(new Image("icon.png"));
+        ((MainFormController) controller).setMainStage(stage);
     }
 
 }

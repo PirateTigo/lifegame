@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,6 +64,18 @@ public class RendererTest {
                 verify(cell).paint(graphicsContextMock);
             });
         }
+    }
+
+    @Test
+    public void givenGetGridCopy_whenCalled_thenCopyIsCreated() {
+        renderer.setSizes(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT);
+        renderer.grid[1][2].setStatus(true);
+        renderer.grid[2][1].setStatus(true);
+
+        Cell[][] gridCopy = renderer.getGridCopy();
+
+        assertTrue(gridCopy[1][2].getStatus());
+        assertTrue(gridCopy[2][1].getStatus());
     }
 
 }

@@ -3,18 +3,19 @@ package ru.sibsutis.lifegame.forms;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 
 import ru.sibsutis.lifegame.gameplay.Game;
 import ru.sibsutis.lifegame.gameplay.Renderer;
+import ru.sibsutis.lifegame.io.GameSaver;
 import ru.sibsutis.lifegame.windows.SizesWindow;
 
 import static ru.sibsutis.lifegame.gameplay.Cell.CELL_SIZE;
@@ -38,6 +39,16 @@ public class MainFormController {
      * Ширина игрового поля в клетках по умолчанию.
      */
     private static final Integer DEFAULT_GAME_HEIGHT_SIZE = 20;
+
+    /**
+     * Основное окно приложения.
+     */
+    private Stage mainStage;
+
+    /**
+     * Работает с файлами приложения.
+     */
+    FileChooser fileChooser;
 
     /**
      * "Отрисовщик" игрового поля.
@@ -91,6 +102,13 @@ public class MainFormController {
     Game game;
 
     /**
+     * Устанавливает основное окно приложения.
+     */
+    public void setMainStage(Stage stage) {
+        mainStage = stage;
+    }
+
+    /**
      * Обработчик нажатия на кнопку основного меню "Новая игра".
      */
     public void newGameHandler() {
@@ -114,7 +132,18 @@ public class MainFormController {
      */
     public void saveHandler() {
         LOGGER.info("Нажата кнопка \"Сохранить...\"");
-        // TODO: Необходимо реализовать обработчик кнопки меню "Сохранить..."
+        if (game.isRunning()) {
+            startStopHandler();
+        }
+        File file = fileChooser.showSaveDialog(mainStage);
+        LOGGER.info("Указан файл {} для сохранения игрового поля", file);
+        GameSaver gameSaver = new GameSaver(
+                file,
+                renderer.getGridCopy(),
+                getGameFieldWidth(),
+                getGameFieldHeight()
+        );
+        gameSaver.save();
     }
 
     /**
@@ -226,6 +255,10 @@ public class MainFormController {
         renderer = new Renderer(gameField);
         renderer.setSizes(DEFAULT_GAME_WIDTH_SIZE, DEFAULT_GAME_HEIGHT_SIZE);
         game = new Game(renderer);
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Life Game File", "*.lgf")
+        );
     }
 
 }
