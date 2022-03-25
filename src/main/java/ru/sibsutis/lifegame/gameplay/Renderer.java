@@ -120,11 +120,19 @@ public class Renderer {
     public void gameStep(int generation) {
         while (isWorking) ;
         isGameStepping = true;
+        Cell[][] newGrid = new Cell[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                calculateCellStatus(j, i);
+                newGrid[i][j] = Cell.builder()
+                        .setVNum(grid[i][j].getVNum())
+                        .setHNum(grid[i][j].getHNum())
+                        .setX(grid[i][j].getX())
+                        .setY(grid[i][j].getY())
+                        .build();
+                calculateCellStatus(j, i, grid, newGrid);
             }
         }
+        grid = newGrid;
         render();
         LOGGER.info("Рисуем поколение {}", generation);
         isGameStepping = false;
@@ -188,10 +196,10 @@ public class Renderer {
         for (int i = 0; i < gridHeight; i++) {
             for (int j = 0; j < gridWidth; j++) {
                 to[i][j] = Cell.builder()
-                        .setHNum(j)
-                        .setVNum(i)
-                        .setX(j * CELL_SIZE)
-                        .setY(i * CELL_SIZE)
+                        .setHNum(from[i][j].getHNum())
+                        .setVNum(from[i][j].getVNum())
+                        .setX(from[i][j].getX())
+                        .setY(from[i][j].getY())
                         .setStatus(from[i][j].getStatus())
                         .build();
             }
@@ -207,59 +215,80 @@ public class Renderer {
         }
     }
 
-    private void calculateCellStatus(int x, int y) {
+    private void calculateCellStatus(int x, int y, Cell[][] sourceGrid, Cell[][] targetGrid) {
         CellCounter neighbors;
         if (x != 0 && y != 0 && x != width - 1 && y != height - 1) {
             // Обрабатываем клетку из середины
-            neighbors = calculateNeighbors(x, y, x - 1, x + 1, y - 1, y + 1);
+            neighbors = calculateNeighbors(
+                    x, y, x - 1, x + 1, y - 1, y + 1, sourceGrid
+            );
         } else if (y == 0) {
             // Верхняя строка
             if (x == 0) {
                 // Левый верхний угол
-                neighbors = calculateNeighbors(x, y, x, x + 1, y, y + 1);
+                neighbors = calculateNeighbors(
+                        x, y, x, x + 1, y, y + 1, sourceGrid
+                );
             } else if (x == width - 1) {
                 // Правый верхний угол
-                neighbors = calculateNeighbors(x, y, x - 1, x, y, y + 1);
+                neighbors = calculateNeighbors(
+                        x, y, x - 1, x, y, y + 1, sourceGrid
+                );
             } else {
                 // Обрабатываем клетку из середины верхней строки
-                neighbors = calculateNeighbors(x, y, x - 1, x + 1, y, y + 1);
+                neighbors = calculateNeighbors(
+                        x, y, x - 1, x + 1, y, y + 1, sourceGrid
+                );
             }
         } else if (y == height - 1) {
             // Нижняя строка
             if (x == 0) {
                 // Левый нижний угол
-                neighbors = calculateNeighbors(x, y, x, x + 1, y - 1, y);
+                neighbors = calculateNeighbors(
+                        x, y, x, x + 1, y - 1, y, sourceGrid
+                );
             } else if (x == width - 1) {
                 // Правый нижний угол
-                neighbors = calculateNeighbors(x, y, x - 1, x, y - 1, y);
+                neighbors = calculateNeighbors(
+                        x, y, x - 1, x, y - 1, y, sourceGrid
+                );
             } else {
                 // Обрабатываем клетку из середины нижней строки
-                neighbors = calculateNeighbors(x, y, x - 1, x + 1, y - 1, y);
+                neighbors = calculateNeighbors(
+                        x, y, x - 1, x + 1, y - 1, y, sourceGrid
+                );
             }
         } else if (x == 0) {
             // Обрабатываем клетку из середины левого столбца
-            neighbors = calculateNeighbors(x, y, x, x + 1, y - 1, y + 1);
+            neighbors = calculateNeighbors(
+                    x, y, x, x + 1, y - 1, y + 1, sourceGrid
+            );
         } else {
             // Обрабатываем клетку из середины правого столбца
-            neighbors = calculateNeighbors(x, y, x - 1, x, y - 1, y + 1);
+            neighbors = calculateNeighbors(
+                    x, y, x - 1, x, y - 1, y + 1, sourceGrid
+            );
         }
-        if (grid[y][x].getStatus()) {
+        if (sourceGrid[y][x].getStatus()) {
             if (neighbors.getCount() < 2 || neighbors.getCount() > 3) {
-                grid[y][x].setStatus(false);
+                targetGrid[y][x].setStatus(false);
+                return;
             }
         } else {
             if (neighbors.getCount() == 3) {
-                grid[y][x].setStatus(true);
+                targetGrid[y][x].setStatus(true);
+                return;
             }
         }
+        targetGrid[y][x].setStatus(sourceGrid[y][x].getStatus());
     }
 
-    private CellCounter calculateNeighbors(int x, int y, int xFrom, int xTo, int yFrom, int yTo) {
+    private CellCounter calculateNeighbors(int x, int y, int xFrom, int xTo, int yFrom, int yTo, Cell[][] sourceGrid) {
         CellCounter result = new CellCounter();
         for (int i = xFrom; i <= xTo; i++) {
             for (int j = yFrom; j <= yTo; j++) {
                 if (i == x && j == y) continue;
-                if (grid[j][i].getStatus()) {
+                if (sourceGrid[j][i].getStatus()) {
                     result.count();
                 }
             }
