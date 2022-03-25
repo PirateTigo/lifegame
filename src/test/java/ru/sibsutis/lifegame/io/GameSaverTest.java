@@ -45,7 +45,7 @@ public class GameSaverTest {
 
         Reader actualReader = new BufferedReader(new FileReader(savedFile));
         Reader expectedReader = new BufferedReader(
-                new FileReader(getClass().getResource("/files/test.lgf").getFile())
+                new FileReader(getClass().getResource("/files/saverTest.lgf").getFile())
         );
 
         assertTrue(IOUtils.contentEquals(expectedReader, actualReader));

@@ -21,22 +21,22 @@ public class GameSaver {
     /**
      * Файл для сохранения данных.
      */
-    final private File file;
+    private final File file;
 
     /**
      * Ширина игрового поля.
      */
-    final private int width;
+    private final int width;
 
     /**
      * Высота игрового поля.
      */
-    final private int height;
+    private final int height;
 
     /**
      * Данные игры.
      */
-    final private Cell[][] data;
+    private final Cell[][] data;
 
     public GameSaver(File file, Cell[][] data, int width, int height) {
         this.file = file;
@@ -66,7 +66,7 @@ public class GameSaver {
     }
 
     private void printData(PrintWriter writer) {
-        writer.println(String.format("%s %s", width, height));
+        writer.println(String.format("%s %s", height, width));
         CellCounter counter = new CellCounter();
         boolean isAlive;
 

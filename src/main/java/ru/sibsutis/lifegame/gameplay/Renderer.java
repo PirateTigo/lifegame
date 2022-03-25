@@ -135,9 +135,10 @@ public class Renderer {
      */
     public void makeSnapshot() {
         Cell[][] newGrid = new Cell[height][width];
-        copyGrid(grid, newGrid);
+        copyGrid(width, height, grid, newGrid);
         gridSnapshot = newGrid;
         isWorking = false;
+        LOGGER.info("Выполнен снимок игрового поля");
     }
 
     /**
@@ -145,10 +146,11 @@ public class Renderer {
      */
     public void reestablishSnapshot() {
         Cell[][] newGrid = new Cell[height][width];
-        copyGrid(gridSnapshot, newGrid);
+        copyGrid(width, height, gridSnapshot, newGrid);
         grid = newGrid;
         render();
         isWorking = false;
+        LOGGER.info("Игровое поле восстановлено из снимка");
     }
 
     /**
@@ -156,18 +158,35 @@ public class Renderer {
      */
     public Cell[][] getGridCopy() {
         Cell[][] copyGrid = new Cell[height][width];
-        copyGrid(grid, copyGrid);
+        copyGrid(width, height, grid, copyGrid);
         isWorking = false;
         return copyGrid;
     }
 
+    /**
+     * Загружает игровое поле.
+     *
+     * @param width   Ширина игрового поля.
+     * @param height  Высота игрового поля.
+     * @param newGrid Игровое поле.
+     */
+    public void loadGridCopy(int width, int height, Cell[][] newGrid) {
+        Cell[][] loadedGrid = new Cell[height][width];
+        copyGrid(width, height, newGrid, loadedGrid);
+        this.width = width;
+        this.height = height;
+        grid = loadedGrid;
+        render();
+        isWorking = false;
+    }
+
     @SuppressWarnings("all")
-    private void copyGrid(Cell[][] from, Cell[][] to) {
+    private void copyGrid(int gridWidth, int gridHeight, Cell[][] from, Cell[][] to) {
         while (isGameStepping) ;
         isWorking = true;
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        for (int i = 0; i < gridHeight; i++) {
+            for (int j = 0; j < gridWidth; j++) {
                 to[i][j] = Cell.builder()
                         .setHNum(j)
                         .setVNum(i)
