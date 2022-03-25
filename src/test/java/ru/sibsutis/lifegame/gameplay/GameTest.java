@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
+import static ru.sibsutis.lifegame.gameplay.Game.RENDER_PERIOD;
 
 @ExtendWith(MockitoExtension.class)
 public class GameTest {
@@ -26,7 +27,7 @@ public class GameTest {
     @Test
     public void givenGame_whenWasStarted_thenIsRunning() throws InterruptedException {
         game.start();
-        Thread.sleep(1500);
+        Thread.sleep((long) (RENDER_PERIOD * 1.5));
 
         assertTrue(game.isRunning());
         game.interrupt();

@@ -13,7 +13,7 @@ public class Game extends Thread {
     /**
      * Период игрового процесса.
      */
-    private static final int RENDER_PERIOD = 1000;
+    public static final int RENDER_PERIOD = 250;
 
     /**
      * "Отрисовщик" элементов на игровом поле.
