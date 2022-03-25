@@ -21,11 +21,6 @@ public class Renderer {
     private final Canvas canvas;
 
     /**
-     * Ячейки игрового поля.
-     */
-    private Cell[][] grid;
-
-    /**
      * Ширина игрового поля в ячейках.
      */
     private int width;
@@ -41,18 +36,25 @@ public class Renderer {
     private Cell[][] gridSnapshot;
 
     /**
-     * Позволяет избежать наложения вызовов {@link #makeSnapshot()} и {@link #gameStep(int)}.
+     * Позволяет избежать наложения вызовов {@link #makeSnapshot()}, {@link #gameStep(int)}
+     * или {@link #getGridCopy()}.
      *
      * @see #isGameStepping
      */
-    private boolean isWorkingWithSnapshot = false;
+    private boolean isWorking = false;
 
     /**
-     * Позволяет избежать наложения вызовов {@link #makeSnapshot()} и {@link #gameStep(int)}.
+     * Позволяет избежать наложения вызовов {@link #makeSnapshot()}, {@link #gameStep(int)}
+     * или {@link #getGridCopy()}.
      *
-     * @see #isWorkingWithSnapshot
+     * @see #isWorking
      */
     private boolean isGameStepping = false;
+
+    /**
+     * Ячейки игрового поля.
+     */
+    Cell[][] grid;
 
     public Renderer(Canvas canvas) {
         this.canvas = canvas;
@@ -116,7 +118,7 @@ public class Renderer {
      */
     @SuppressWarnings("all")
     public void gameStep(int generation) {
-        while (isWorkingWithSnapshot) ;
+        while (isWorking) ;
         isGameStepping = true;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -135,7 +137,7 @@ public class Renderer {
         Cell[][] newGrid = new Cell[height][width];
         copyGrid(grid, newGrid);
         gridSnapshot = newGrid;
-        isWorkingWithSnapshot = false;
+        isWorking = false;
     }
 
     /**
@@ -146,13 +148,23 @@ public class Renderer {
         copyGrid(gridSnapshot, newGrid);
         grid = newGrid;
         render();
-        isWorkingWithSnapshot = false;
+        isWorking = false;
+    }
+
+    /**
+     * Возвращает копию текущего игрового поля.
+     */
+    public Cell[][] getGridCopy() {
+        Cell[][] copyGrid = new Cell[height][width];
+        copyGrid(grid, copyGrid);
+        isWorking = false;
+        return copyGrid;
     }
 
     @SuppressWarnings("all")
     private void copyGrid(Cell[][] from, Cell[][] to) {
         while (isGameStepping) ;
-        isWorkingWithSnapshot = true;
+        isWorking = true;
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -177,7 +189,7 @@ public class Renderer {
     }
 
     private void calculateCellStatus(int x, int y) {
-        Neighbors neighbors;
+        CellCounter neighbors;
         if (x != 0 && y != 0 && x != width - 1 && y != height - 1) {
             // Обрабатываем клетку из середины
             neighbors = calculateNeighbors(x, y, x - 1, x + 1, y - 1, y + 1);
@@ -213,39 +225,27 @@ public class Renderer {
             neighbors = calculateNeighbors(x, y, x - 1, x, y - 1, y + 1);
         }
         if (grid[y][x].getStatus()) {
-            if (neighbors.getAliveCount() < 2 || neighbors.getAliveCount() > 3) {
+            if (neighbors.getCount() < 2 || neighbors.getCount() > 3) {
                 grid[y][x].setStatus(false);
             }
         } else {
-            if (neighbors.getAliveCount() == 3) {
+            if (neighbors.getCount() == 3) {
                 grid[y][x].setStatus(true);
             }
         }
     }
 
-    private Neighbors calculateNeighbors(int x, int y, int xFrom, int xTo, int yFrom, int yTo) {
-        Neighbors result = new Neighbors();
+    private CellCounter calculateNeighbors(int x, int y, int xFrom, int xTo, int yFrom, int yTo) {
+        CellCounter result = new CellCounter();
         for (int i = xFrom; i <= xTo; i++) {
             for (int j = yFrom; j <= yTo; j++) {
                 if (i == x && j == y) continue;
                 if (grid[j][i].getStatus()) {
-                    result.countAlive();
+                    result.count();
                 }
             }
         }
         return result;
-    }
-
-    private static class Neighbors {
-        private int aliveCount = 0;
-
-        public void countAlive() {
-            aliveCount++;
-        }
-
-        public int getAliveCount() {
-            return aliveCount;
-        }
     }
 
 }

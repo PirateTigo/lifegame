@@ -3,6 +3,7 @@ package ru.sibsutis.lifegame.forms;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,14 +14,14 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import ru.sibsutis.lifegame.gameplay.Game;
 import ru.sibsutis.lifegame.gameplay.Renderer;
+import ru.sibsutis.lifegame.io.GameSaver;
 import ru.sibsutis.lifegame.windows.SizesWindow;
 
 import java.io.IOException;
 import java.net.URL;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(ApplicationExtension.class)
 public class MainFormControllerTest {
@@ -45,6 +46,8 @@ public class MainFormControllerTest {
 
     private MenuItem reestablishMenuItemMock;
 
+    private FileChooser fileChooserMock;
+
     @Start
     public void start(Stage stage) {
         mainFormController = new MainFormController();
@@ -54,6 +57,7 @@ public class MainFormControllerTest {
         mainFormController.renderer = rendererMock = mock(Renderer.class);
         mainFormController.game = gameMock = mock(Game.class);
         mainFormController.reestablishMenuItem = reestablishMenuItemMock = mock(MenuItem.class);
+        mainFormController.fileChooser = fileChooserMock = mock(FileChooser.class);
     }
 
     @Test
@@ -113,6 +117,28 @@ public class MainFormControllerTest {
 
         verify(gameMock).isRunning();
         verify(rendererMock).reestablishSnapshot();
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    public void givenSaveHandler_whenCalled_thenSaved() {
+        try (MockedConstruction<GameSaver> mockedGameSaver =
+                     mockConstruction(GameSaver.class, (gameSaverMock, context) -> {
+
+                     })) {
+            when(mainHeightLabelMock.getText()).thenReturn("10");
+            when(mainWidthLabelMock.getText()).thenReturn("10");
+
+            mainFormController.saveHandler();
+
+            verify(gameMock).isRunning();
+            verify(fileChooserMock).showSaveDialog(any());
+            verify(rendererMock).getGridCopy();
+            verify(mainWidthLabelMock).getText();
+            verify(mainHeightLabelMock).getText();
+            GameSaver gameSaverMock = mockedGameSaver.constructed().stream().findFirst().orElseThrow();
+            verify(gameSaverMock).save();
+        }
     }
 
 }
