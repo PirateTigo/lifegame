@@ -1,6 +1,7 @@
 package ru.sibsutis.lifegame.forms;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
@@ -50,6 +51,20 @@ public class MainFormControllerTest {
 
     private FileChooser fileChooserMock;
 
+    private Button newGameButtonMock;
+
+    private Button openButtonMock;
+
+    private Button saveButtonMock;
+
+    private Button startStopButtonMock;
+
+    private Button snapshotButtonMock;
+
+    private Button rollbackButtonMock;
+
+    private MenuItem startStopMenuItemMock;
+
     @Start
     public void start(Stage stage) {
         mainFormController = new MainFormController();
@@ -60,6 +75,13 @@ public class MainFormControllerTest {
         mainFormController.game = gameMock = mock(Game.class);
         mainFormController.reestablishMenuItem = reestablishMenuItemMock = mock(MenuItem.class);
         mainFormController.fileChooser = fileChooserMock = mock(FileChooser.class);
+        mainFormController.newGameButton = newGameButtonMock = mock(Button.class);
+        mainFormController.openButton = openButtonMock = mock(Button.class);
+        mainFormController.saveButton = saveButtonMock = mock(Button.class);
+        mainFormController.startStopButton = startStopButtonMock = mock(Button.class);
+        mainFormController.snapshotButton = snapshotButtonMock = mock(Button.class);
+        mainFormController.rollbackButton = rollbackButtonMock = mock(Button.class);
+        mainFormController.startStopMenuItem = startStopMenuItemMock = mock(MenuItem.class);
     }
 
     @Test
@@ -101,6 +123,8 @@ public class MainFormControllerTest {
         verify(gameFieldMock).setWidth(WIDTH * CELL_SIZE);
         verify(gameFieldMock).setHeight(HEIGHT * CELL_SIZE);
         verify(rendererMock).setSizes(WIDTH, HEIGHT);
+        verify(rollbackButtonMock, new Times(2)).removeEventHandler(any(), any());
+        verify(rollbackButtonMock).setDisable(true);
         verify(reestablishMenuItemMock).setDisable(true);
     }
 
@@ -109,6 +133,8 @@ public class MainFormControllerTest {
         mainFormController.snapshotHandler();
 
         verify(rendererMock).makeSnapshot();
+        verify(rollbackButtonMock, new Times(2)).addEventHandler(any(), any());
+        verify(rollbackButtonMock).setDisable(false);
         verify(reestablishMenuItemMock).setDisable(false);
     }
 
@@ -134,6 +160,7 @@ public class MainFormControllerTest {
             mainFormController.saveHandler();
 
             verify(gameMock).isRunning();
+            verify(saveButtonMock).setStyle(anyString());
             verify(fileChooserMock).showSaveDialog(any());
             verify(rendererMock).getGridCopy();
             verify(mainWidthLabelMock).getText();
@@ -158,6 +185,7 @@ public class MainFormControllerTest {
             mainFormController.openHandler();
 
             verify(gameMock, new Times(2)).isRunning();
+            verify(openButtonMock).setStyle(anyString());
             verify(fileChooserMock).showOpenDialog(any());
             GameLoader gameLoaderMock =
                     mockedGameLoader.constructed().stream().findFirst().orElseThrow();

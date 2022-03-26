@@ -1,9 +1,12 @@
 package ru.sibsutis.lifegame.forms;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -93,6 +96,42 @@ public class MainFormController {
     Label versionsLabel;
 
     /**
+     * Кнопка "Новая игра".
+     */
+    @FXML
+    Button newGameButton;
+
+    /**
+     * Кнопка "Открыть...".
+     */
+    @FXML
+    Button openButton;
+
+    /**
+     * Кнопка "Сохранить...".
+     */
+    @FXML
+    Button saveButton;
+
+    /**
+     * Кнопка "Запустить / Остановить".
+     */
+    @FXML
+    Button startStopButton;
+
+    /**
+     * Кнопка "Сделать снимок".
+     */
+    @FXML
+    Button snapshotButton;
+
+    /**
+     * Кнопка "Восстановить".
+     */
+    @FXML
+    Button rollbackButton;
+
+    /**
      * Контроллер формы управления размером игрового поля.
      */
     SizesFormController sizesFormController;
@@ -117,6 +156,8 @@ public class MainFormController {
         renderer.clear();
         if (game.isRunning()) {
             startStopHandler();
+            // Изменяем поведение кнопки "Запустить / Остановить", заданное обработчиком
+            startStopButton.setStyle(ToolbarButtonState.START_EXITED.getStyle());
         }
     }
 
@@ -127,7 +168,10 @@ public class MainFormController {
         LOGGER.info("Нажата кнопка \"Открыть...\"");
         if (game.isRunning()) {
             startStopHandler();
+            // Изменяем поведение кнопки "Запустить / Остановить", заданное обработчиком
+            startStopButton.setStyle(ToolbarButtonState.START_EXITED.getStyle());
         }
+        openButton.setStyle(ToolbarButtonState.OPEN_EXITED.getStyle());
         File file = fileChooser.showOpenDialog(mainStage);
         LOGGER.info("Указан файл {} для загрузки игрового поля", file);
         GameLoader gameLoader = new GameLoader(file);
@@ -146,7 +190,10 @@ public class MainFormController {
         LOGGER.info("Нажата кнопка \"Сохранить...\"");
         if (game.isRunning()) {
             startStopHandler();
+            // Изменяем поведение кнопки "Запустить / Остановить", заданное обработчиком
+            startStopButton.setStyle(ToolbarButtonState.START_EXITED.getStyle());
         }
+        saveButton.setStyle(ToolbarButtonState.SAVE_EXITED.getStyle());
         File file = fileChooser.showSaveDialog(mainStage);
         LOGGER.info("Указан файл {} для сохранения игрового поля", file);
         GameSaver gameSaver = new GameSaver(
@@ -164,7 +211,7 @@ public class MainFormController {
     public void snapshotHandler() {
         LOGGER.info("Нажата кнопка \"Сделать снимок\"");
         renderer.makeSnapshot();
-        reestablishMenuItem.setDisable(false);
+        setRollback(true);
     }
 
     /**
@@ -174,6 +221,8 @@ public class MainFormController {
         LOGGER.info("Нажата кнопка \"Восстановить\"");
         if (game.isRunning()) {
             startStopHandler();
+            // Изменяем поведение кнопки "Запустить / Остановить", заданное обработчиком
+            startStopButton.setStyle(ToolbarButtonState.START_EXITED.getStyle());
         }
         renderer.reestablishSnapshot();
     }
@@ -187,9 +236,13 @@ public class MainFormController {
             startStopMenuItem.setText(STOP);
             game = new Game(renderer);
             game.start();
+            startStopButton.setStyle(ToolbarButtonState.STOP_ENTERED.getStyle());
+            startStopButton.setTooltip(ToolbarButtonState.STOP_ENTERED.getTooltip());
         } else {
             startStopMenuItem.setText(START);
             game.interrupt();
+            startStopButton.setStyle(ToolbarButtonState.START_ENTERED.getStyle());
+            startStopButton.setTooltip(ToolbarButtonState.START_ENTERED.getTooltip());
         }
     }
 
@@ -224,6 +277,8 @@ public class MainFormController {
         LOGGER.info("Заданы размеры игрового поля (ширина = {}, высота = {}}", width, height);
         if (game.isRunning()) {
             startStopHandler();
+            // Изменяем поведение кнопки "Запустить / Остановить", заданное обработчиком
+            startStopButton.setStyle(ToolbarButtonState.START_EXITED.getStyle());
         }
         mainWidthLabel.setText(String.valueOf(width));
         mainHeightLabel.setText(String.valueOf(height));
@@ -232,7 +287,7 @@ public class MainFormController {
         if (rerender) {
             renderer.setSizes(width, height);
         }
-        reestablishMenuItem.setDisable(true);
+        setRollback(false);
     }
 
     /**
@@ -274,6 +329,74 @@ public class MainFormController {
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Life Game File", "*.lgf")
         );
+
+        // Устанавливаем обработчики изображений кнопок панели инструментов
+        newGameButton.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent ->
+                newGameButton.setStyle(ToolbarButtonState.NEW_GAME_ENTERED.getStyle()));
+        newGameButton.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent ->
+                newGameButton.setStyle(ToolbarButtonState.NEW_GAME_EXITED.getStyle()));
+        openButton.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent ->
+                openButton.setStyle(ToolbarButtonState.OPEN_ENTERED.getStyle()));
+        openButton.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent ->
+                openButton.setStyle(ToolbarButtonState.OPEN_EXITED.getStyle()));
+        saveButton.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent ->
+                saveButton.setStyle(ToolbarButtonState.SAVE_ENTERED.getStyle()));
+        saveButton.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent ->
+                saveButton.setStyle(ToolbarButtonState.SAVE_EXITED.getStyle()));
+        startStopButton.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
+            if (game.isRunning()) {
+                startStopButton.setStyle(ToolbarButtonState.STOP_ENTERED.getStyle());
+                startStopButton.setTooltip(ToolbarButtonState.STOP_ENTERED.getTooltip());
+            } else {
+                startStopButton.setStyle(ToolbarButtonState.START_ENTERED.getStyle());
+                startStopButton.setTooltip(ToolbarButtonState.START_ENTERED.getTooltip());
+            }
+        });
+        startStopButton.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> {
+            if (game.isRunning()) {
+                startStopButton.setStyle(ToolbarButtonState.STOP_EXITED.getStyle());
+                startStopButton.setTooltip(ToolbarButtonState.STOP_EXITED.getTooltip());
+            } else {
+                startStopButton.setStyle(ToolbarButtonState.START_EXITED.getStyle());
+                startStopButton.setTooltip(ToolbarButtonState.START_EXITED.getTooltip());
+            }
+        });
+        snapshotButton.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent ->
+                snapshotButton.setStyle(ToolbarButtonState.SNAPSHOT_ENTERED.getStyle()));
+        snapshotButton.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent ->
+                snapshotButton.setStyle(ToolbarButtonState.SNAPSHOT_EXITED.getStyle()));
+
+        // Устанавливаем статичные изображения на кнопках по умолчанию
+        newGameButton.setStyle(ToolbarButtonState.NEW_GAME_EXITED.getStyle());
+        openButton.setStyle(ToolbarButtonState.OPEN_EXITED.getStyle());
+        saveButton.setStyle(ToolbarButtonState.SAVE_EXITED.getStyle());
+        startStopButton.setStyle(ToolbarButtonState.START_EXITED.getStyle());
+        snapshotButton.setStyle(ToolbarButtonState.SNAPSHOT_EXITED.getStyle());
+        rollbackButton.setStyle(ToolbarButtonState.ROLLBACK_EXITED.getStyle());
+
+        // Устанавливаем подсказки для кнопок по умолчанию
+        newGameButton.setTooltip(ToolbarButtonState.NEW_GAME_EXITED.getTooltip());
+        openButton.setTooltip(ToolbarButtonState.OPEN_EXITED.getTooltip());
+        saveButton.setTooltip(ToolbarButtonState.SAVE_EXITED.getTooltip());
+        startStopButton.setTooltip(ToolbarButtonState.START_EXITED.getTooltip());
+        snapshotButton.setTooltip(ToolbarButtonState.SNAPSHOT_EXITED.getTooltip());
+        rollbackButton.setTooltip(ToolbarButtonState.ROLLBACK_EXITED.getTooltip());
+    }
+
+    private void setRollback(boolean enabled) {
+        EventHandler<MouseEvent> mouseEnteredHandler = mouseEvent ->
+                rollbackButton.setStyle(ToolbarButtonState.ROLLBACK_ENTERED.getStyle());
+        EventHandler<MouseEvent> mouseExitedHandler = mouseEvent ->
+                rollbackButton.setStyle(ToolbarButtonState.ROLLBACK_EXITED.getStyle());
+        if (enabled) {
+            rollbackButton.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEnteredHandler);
+            rollbackButton.addEventHandler(MouseEvent.MOUSE_EXITED, mouseExitedHandler);
+        } else {
+            rollbackButton.removeEventHandler(MouseEvent.MOUSE_ENTERED, mouseEnteredHandler);
+            rollbackButton.removeEventHandler(MouseEvent.MOUSE_EXITED, mouseExitedHandler);
+        }
+        rollbackButton.setDisable(!enabled);
+        reestablishMenuItem.setDisable(!enabled);
     }
 
 }

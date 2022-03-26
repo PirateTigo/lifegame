@@ -26,19 +26,21 @@ public final class MainWindow {
      * Наполняет контейнер компонентов окна.
      *
      * @param stage            Контейнер компонентов окна.
+     * @param faviconLocation  URL размещения иконки приложения.
      * @param mainFormLocation URL размещения fxml-файла описания основной формы.
      * @param controller       Контроллер для формы.
      * @throws IOException Если fxml-файл описания формы недоступен.
      */
     public static void prepareStage(
             Stage stage,
+            URL faviconLocation,
             URL mainFormLocation,
             Object controller) throws IOException {
         FXMLLoader mainFormLoader = new FXMLLoader(mainFormLocation);
         mainFormLoader.setController(controller);
         stage.setScene(new Scene(mainFormLoader.load(), MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
         stage.setTitle(MAIN_WINDOW_TITLE);
-        stage.getIcons().add(new Image("icon.png"));
+        stage.getIcons().add(new Image(faviconLocation.toExternalForm()));
         ((MainFormController) controller).setMainStage(stage);
     }
 

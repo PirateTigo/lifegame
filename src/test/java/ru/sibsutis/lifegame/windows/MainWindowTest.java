@@ -1,11 +1,9 @@
 package ru.sibsutis.lifegame.windows;
 
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.Start;
@@ -37,6 +35,7 @@ public class MainWindowTest extends LifeGameApplicationTest {
         String javaVersion = System.getProperty("java.version");
         String javafxVersion = System.getProperty("javafx.version");
         String expectedVersionsString = "JavaFX: " + javafxVersion + ", Java: " + javaVersion;
+
         assertEquals(expectedVersionsString, versionsLabel.getText());
     }
 
@@ -76,6 +75,24 @@ public class MainWindowTest extends LifeGameApplicationTest {
 
         assertEquals(DEFAULT_GAME_WIDTH_SIZE * CELL_SIZE, gameField.getWidth());
         assertEquals(DEFAULT_GAME_HEIGHT_SIZE * CELL_SIZE, gameField.getHeight());
+    }
+
+    @Test
+    public void givenMainWindow_whenShowed_thenToolbarHasCorrectButtons() {
+        ToolBar toolBar = (ToolBar) mainWindowScene.lookup("#toolbar");
+
+        ObservableList<Node> buttons = toolBar.getItems();
+
+        assertThat(buttons.stream().anyMatch(node -> checkNode(node, "newGameButton", Button.class)));
+        assertThat(buttons.stream().anyMatch(node -> checkNode(node, "openButton", Button.class)));
+        assertThat(buttons.stream().anyMatch(node -> checkNode(node, "saveButton", Button.class)));
+        assertThat(buttons.stream().anyMatch(node -> checkNode(node, "startStopButton", Button.class)));
+        assertThat(buttons.stream().anyMatch(node -> checkNode(node, "snapshotButton", Button.class)));
+        assertThat(buttons.stream().anyMatch(node -> checkNode(node, "rollbackButton", Button.class)));
+    }
+
+    private boolean checkNode(Node node, String id, Class<? extends Node> nodeClass) {
+        return node.getId().equals(id) && node.getClass().isAssignableFrom(nodeClass);
     }
 
 }
