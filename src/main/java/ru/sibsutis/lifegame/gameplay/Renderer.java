@@ -56,10 +56,13 @@ public class Renderer {
      */
     Cell[][] grid;
 
+    @SuppressWarnings("all")
     public Renderer(Canvas canvas) {
         this.canvas = canvas;
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 mouseEvent -> {
+                    while (isGameStepping);
+                    isWorking = true;
                     int hNum = (int) mouseEvent.getX() / CELL_SIZE;
                     int vNum = (int) mouseEvent.getY() / CELL_SIZE;
 
@@ -69,6 +72,7 @@ public class Renderer {
                         cell.paint(canvas.getGraphicsContext2D());
                         LOGGER.info("Установка клетки игрового поля: ({}, {})", vNum, hNum);
                     }
+                    isWorking = false;
                 }
         );
     }

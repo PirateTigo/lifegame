@@ -26,9 +26,11 @@ public class LifeGameApplication extends Application {
     @Override
     public void start(Stage stage) {
         try {
+            Class<?> clazz = getClass();
             prepareStage(
                     stage,
-                    getClass().getResource("/forms/main.fxml"),
+                    clazz.getResource("/icons/favicon.png"),
+                    clazz.getResource("/forms/main.fxml"),
                     new MainFormController()
             );
             stage.show();

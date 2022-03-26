@@ -20,9 +20,11 @@ public class LifeGameApplicationTest {
 
     protected void prepareMainWindow(Stage stage, Object controller) throws IOException {
         this.mainWindowStage = stage;
+        Class<?> clazz = getClass();
         MainWindow.prepareStage(
                 stage,
-                getClass().getResource("/forms/main.fxml"),
+                clazz.getResource("/icons/favicon.png"),
+                clazz.getResource("/forms/main.fxml"),
                 controller
         );
         mainWindowScene = stage.getScene();
