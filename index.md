@@ -5,7 +5,7 @@
 Код проекта вы можете найти [здесь](https://github.com/PirateTigo/lifegame).
 
 ### Правила игры
-```markdown
+
 - Место действия игры - "вселенная" - размеченная на клетки ограниченная плоскость.
 - Каждая клетка на этой поверхности может находиться в двух состояниях: быть "живой" (заполненной) или быть "мертвой" (пустой). Клетка имеет восемь соседей, окружающих её.
 - Распределение живых клеток в начале игры называется первым поколением. Каждое следующее поколение рассчитывается на основе предыдущего по таким правилам:
@@ -13,32 +13,10 @@
   - если у живой клетки есть две или три живые соседки, то эта клетка продолжает жить;
   - в противном случае, если соседей меньше двух или больше трёх, клетка умирает ("от одиночества" или "от перенаселенности")
 
-```
+### Предложения
 
-```markdown
-Syntax highlighted code block
+Вы всегда можете написать свой отзыв или предложение [автору](mailto:piratetigo@gmail.com).
 
-# Header 1
-## Header 2
-### Header 3
+### Проблемы
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/PirateTigo/lifegame/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Есть проблемы с использованием программы или вопросы? Обратитесь к [руководству пользователя](https://github.com/PirateTigo/lifegame/wiki/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-%D0%B8%D0%B3%D1%80%D1%8B-%22%D0%96%D0%B8%D0%B7%D0%BD%D1%8C%22).
