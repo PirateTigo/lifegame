@@ -1,5 +1,6 @@
 package ru.sibsutis.lifegame.gameplay;
 
+import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,9 +17,9 @@ public class Game extends Thread {
     public static final int RENDER_PERIOD = 250;
 
     /**
-     * "Отрисовщик" элементов на игровом поле.
+     * Генератор нового поколения.
      */
-    private final Renderer renderer;
+    private final Runnable gameStepCalculator;
 
     /**
      * Номер поколения.
@@ -31,8 +32,8 @@ public class Game extends Thread {
     private boolean isRunning = false;
 
     public Game(Renderer renderer) {
-        this.renderer = renderer;
         generation = 1;
+        gameStepCalculator = () -> renderer.gameStep(++generation);
     }
 
     /**
@@ -51,10 +52,10 @@ public class Game extends Thread {
             LOGGER.info("Игровой процесс запущен");
             while (true) {
                 sleep(RENDER_PERIOD);
-                renderer.gameStep(++generation);
+                Platform.runLater(gameStepCalculator);
             }
         } catch (InterruptedException ex) {
-            LOGGER.info("Игровой процесс остановлен", ex);
+            LOGGER.info("Игровой процесс остановлен");
             isRunning = false;
         }
     }

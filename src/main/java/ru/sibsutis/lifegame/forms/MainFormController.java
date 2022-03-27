@@ -1,5 +1,6 @@
 package ru.sibsutis.lifegame.forms;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -146,6 +147,8 @@ public class MainFormController {
      */
     public void setMainStage(Stage stage) {
         mainStage = stage;
+        // Устанавливаем обработчик закрытия окна приложения
+        stage.setOnCloseRequest(windowEvent -> exitApplication());
     }
 
     /**
@@ -306,6 +309,15 @@ public class MainFormController {
      */
     public int getGameFieldHeight() {
         return Integer.parseInt(mainHeightLabel.getText());
+    }
+
+    /**
+     * Завершает работу приложения.
+     */
+    public void exitApplication() {
+        game.interrupt();
+        Platform.exit();
+        System.exit(0);
     }
 
     /**
