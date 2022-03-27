@@ -1,12 +1,19 @@
-## Welcome to GitHub Pages
+## Игра "Жизнь"
 
-You can use the [editor on GitHub](https://github.com/PirateTigo/lifegame/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Одна из множества реализаций [всем известной игры](https://ru.wikipedia.org/wiki/%D0%98%D0%B3%D1%80%D0%B0_%C2%AB%D0%96%D0%B8%D0%B7%D0%BD%D1%8C%C2%BB), использующая Java FX.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Код проекта вы можете найти [здесь](https://github.com/PirateTigo/lifegame).
 
-### Markdown
+### Правила игры
+```markdown
+- Место действия игры - "вселенная" - размеченная на клетки ограниченная плоскость.
+- Каждая клетка на этой поверхности может находиться в двух состояниях: быть "живой" (заполненной) или быть "мертвой" (пустой). Клетка имеет восемь соседей, окружающих её.
+- Распределение живых клеток в начале игры называется первым поколением. Каждое следующее поколение рассчитывается на основе предыдущего по таким правилам:
+  - в пустой (мёртвой) клетке, рядом с которой ровно три живые клетки, зарождается жизнь;
+  - если у живой клетки есть две или три живые соседки, то эта клетка продолжает жить;
+  - в противном случае, если соседей меньше двух или больше трёх, клетка умирает ("от одиночества" или "от перенаселенности")
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+```
 
 ```markdown
 Syntax highlighted code block
