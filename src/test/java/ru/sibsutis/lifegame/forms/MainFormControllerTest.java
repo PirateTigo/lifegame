@@ -1,5 +1,6 @@
 package ru.sibsutis.lifegame.forms;
 
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -197,6 +198,15 @@ public class MainFormControllerTest {
             verify(gameLoaderMock).getData();
             verify(rendererMock).loadGridCopy(eq(WIDTH), eq(HEIGHT), any());
         }
+    }
+
+    @Test
+    public void givenSetMainStage_whenCalled_thenCloseHandlerIsSet() {
+        Stage stageMock = mock(Stage.class);
+
+        mainFormController.setMainStage(stageMock);
+
+        verify(stageMock).setOnCloseRequest(any());
     }
 
 }

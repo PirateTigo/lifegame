@@ -33,6 +33,7 @@
                 <MenuItem text="Новая игра" onAction="#newGameHandler"/>
                 <MenuItem text="Открыть..." onAction="#openHandler"/>
                 <MenuItem text="Сохранить..." onAction="#saveHandler"/>
+                <MenuItem text="Выход" onAction="#exitApplication"/>
             </Menu>
             <Menu text="Игра">
                 <MenuItem text="Сделать снимок" onAction="#snapshotHandler"/>
