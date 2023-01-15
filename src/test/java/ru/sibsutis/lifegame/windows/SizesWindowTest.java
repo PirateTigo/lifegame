@@ -44,8 +44,8 @@ public class SizesWindowTest extends LifeGameApplicationTest {
 
     @Test
     public void givenSizesWindow_whenShowed_thenSizesIsCorrect() {
-        assertEquals(WINDOW_HEIGHT, sizesWindowStage.getHeight());
-        assertEquals(WINDOW_WIDTH, sizesWindowStage.getWidth());
+        assertEquals(WINDOW_HEIGHT, (int)sizesWindowStage.getHeight());
+        assertEquals(WINDOW_WIDTH, (int)sizesWindowStage.getWidth());
     }
 
     @Test
